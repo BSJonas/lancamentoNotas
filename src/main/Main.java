@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import classesauxiliares.FuncaoAutenticacao;
 import constantes.StatusAluno;
 import estudo.classes.Aluno;
+import estudo.classes.Diretor;
 import estudo.classes.Disciplina;
 import estudo.classes.Secretario;
 import interfaces.PermitirAcesso;
@@ -19,13 +20,19 @@ public class Main {
 	// @SuppressWarnings
 	public static void main(String[] args) {
 
+		try {
+
+
 		String login = JOptionPane.showInputDialog("Informe o login");
 		String senha = JOptionPane.showInputDialog("Informe a senha");
 
-		PermitirAcesso permitirAcesso = new Secretario(login, senha);
+		/*Não vamos usar pois vair ser instanciado diretamente na condição "IF" */
+		//FuncaoAutenticacao autenticacao = new FuncaoAutenticacao();
 
-		/* Instancia e e já verifica o login pelo método autencticar */
-		if (new FuncaoAutenticacao(permitirAcesso).autenticar()) { /* Se TRUE acessa, se FALSE não acessa */
+		//PermitirAcesso permitirAcesso = new Secretario(login, senha);
+		
+		/* Instancia e e já verifica o login pelo método autenticar */
+		if (new FuncaoAutenticacao(new Diretor(login, senha)).autenticar()) { /* Se TRUE acessa, se FALSE não acessa */
 
 			List<Aluno> alunos = new ArrayList<Aluno>();
 
@@ -145,6 +152,12 @@ public class Main {
 		} else {
 			JOptionPane.showMessageDialog(null, "Acesso não permitido");
 		}
+		
+	} catch (Exception e) {
+		e.printStackTrace(); /*Imprime erro no console Java*/
+		JOptionPane.showMessageDialog(null, "Erro ao processar notas");
+	}
 
 	}
+
 }

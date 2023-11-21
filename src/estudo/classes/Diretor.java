@@ -17,7 +17,6 @@ public class Diretor extends Pessoa implements PermitirAcesso {
     }
 
     public Diretor(){
-
     }
 
     public String getRegistroEducacao() {

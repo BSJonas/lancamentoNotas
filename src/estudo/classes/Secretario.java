@@ -11,11 +11,13 @@ public class Secretario extends Pessoa implements PermitirAcesso {
     private String login;
     private String senha;
 
+    /*Construtor com parâmetro */
     public Secretario(String login, String senha) {
         this.login = login;
         this.senha = senha;
     }
 
+    /*Construtor sem parâmetro */
     public Secretario() {
     }
 
