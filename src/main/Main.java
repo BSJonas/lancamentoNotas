@@ -1,6 +1,7 @@
 package main;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +9,12 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import classes.Aluno;
+import classes.Diretor;
+import classes.Disciplina;
 import classesauxiliares.FuncaoAutenticacao;
 import constantes.StatusAluno;
-import estudo.classes.Aluno;
-import estudo.classes.Diretor;
-import estudo.classes.Disciplina;
+import excecao.ExcecaoProcessarNota;
 
 public class Main {
 
@@ -21,9 +23,9 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
-			/*Erro gerado para simular exceção File Not Found */
-			File fil = new File("C://lines.txt");
-			Scanner Scanner = new Scanner(fil);
+			
+			lerArquivo();
+
 
 			String login = JOptionPane.showInputDialog("Informe o login");
 			String senha = JOptionPane.showInputDialog("Informe a senha");
@@ -34,16 +36,13 @@ public class Main {
 			// PermitirAcesso permitirAcesso = new Secretario(login, senha);
 
 			/* Instancia e e já verifica o login pelo método autenticar */
-			if (new FuncaoAutenticacao(new Diretor(login, senha)).autenticar()) { /*
-																					 * Se TRUE acessa, se FALSE não
-																					 * acessa
-																					 */
+
+			if (new FuncaoAutenticacao(new Diretor(login, senha)).autenticar()) { /* Se TRUE acessa, se FALSE não acessa*/
 
 				List<Aluno> alunos = new ArrayList<Aluno>();
 
 				/*
-				 * É uma lista que dentro dela tem uma chave que identifica uma sequência de
-				 * valores também
+				 * É uma lista que dentro dela tem uma chave que identifica uma sequência de valores também
 				 */
 				HashMap<String, List<Aluno>> maps = new HashMap<String, List<Aluno>>();
 
@@ -158,8 +157,7 @@ public class Main {
 				JOptionPane.showMessageDialog(null, "Acesso não permitido");
 			}
 
-		} catch (NumberFormatException | IllegalAccessError e) {
-
+		} catch (Exception e) { //Captura somente NumberFormatException
 			StringBuilder saida = new StringBuilder();
 
 			System.out.println("Mensagem " + e.getMessage());
@@ -174,15 +172,19 @@ public class Main {
 
 			JOptionPane.showMessageDialog(null, "Erro ao processar notas " + saida.toString());
 
-		} catch (NullPointerException e) {
-			StringBuilder saida = new StringBuilder();
-			saida.append("null pointer exception");
-			JOptionPane.showMessageDialog(null, "Opa, ocorreu um " + saida.toString());
-		}catch(Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Erro inesperado: "+e.getClass().getName());
+		} finally { /*Sempre é executado ocorrendo erros ou não */
+			JOptionPane.showMessageDialog(null, "Continue estudando para continuar evoluindo no Java");
 		}
 
+	}
+
+	public static void lerArquivo () throws ExcecaoProcessarNota {
+		try {
+			File fil = new File("C://lines.txt");
+			Scanner sc = new Scanner(fil);
+		} catch (Exception e) {
+			throw new ExcecaoProcessarNota(e.getMessage());
+		}
 	}
 
 }
